@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DOM Assignment — Techpro Institute</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #f0f4ff;
+      color: #1a1a2e;
+      line-height: 1.7;
+    }
+
+    /* HEADER */
+    .header {
+      background: #1a1a2e;
+      color: white;
+      padding: 40px 32px;
+      text-align: center;
+    }
+    .header .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #9fa8cc;
+      margin-bottom: 12px;
+    }
+    .header h1 { font-size: 2rem; font-weight: 700; }
+    .header h1 span { color: #3a86ff; }
+    .header p { color: #9fa8cc; margin-top: 10px; font-size: 0.95rem; }
+
+    .main { max-width: 780px; margin: 0 auto; padding: 36px 24px 60px; }
+
+    /* WELCOME BOX */
+    .welcome {
+      background: white;
+      border-radius: 14px;
+      padding: 28px;
+      border: 1.5px solid #dde3ff;
+      margin-bottom: 28px;
+    }
+    .welcome h2 { font-size: 1.1rem; margin-bottom: 10px; }
+    .welcome p  { font-size: 0.95rem; color: #374151; margin-bottom: 10px; }
+    .welcome p:last-child { margin-bottom: 0; }
+    .welcome strong { color: #1a1a2e; }
+
+    /* STEP BOX */
+    .steps-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #6b7280;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .step-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .step-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #deeaff;
+      color: #3a86ff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text { font-size: 0.95rem; color: #374151; }
+    .step-text strong { color: #1a1a2e; display: block; margin-bottom: 2px; }
+
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85em;
+      background: #f0f4ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #3a86ff;
+    }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #6b7280;
+      font-weight: 600;
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: #dde3ff; }
+
+    /* TASK CARD */
+    .task {
+      background: white;
+      border-radius: 14px;
+      border: 1.5px solid #e2e5f0;
+      padding: 24px;
+      margin-bottom: 14px;
+    }
+    .task-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .task-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+    .blue   { background: #deeaff; color: #1d4ed8; }
+    .orange { background: #ffe4d9; color: #c2410c; }
+    .green  { background: #d4f7ef; color: #065f46; }
+    .purple { background: #eedff2; color: #6b21a8; }
+
+    .task-title { font-size: 1rem; font-weight: 700; }
+    .task-pts   { margin-left: auto; font-size: 0.8rem; color: #9ca3af; font-weight: 600; white-space: nowrap; }
+
+    .task p { font-size: 0.93rem; color: #374151; margin-bottom: 12px; }
+
+    .target-box {
+      background: #f9fafb;
+      border-left: 3px solid #3a86ff;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      margin-bottom: 12px;
+    }
+    .target-box .label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #3a86ff;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .hint-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.87rem;
+      color: #78350f;
+      margin-bottom: 12px;
+    }
+
+    .write-here {
+      border: 1.5px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      min-height: 56px;
+      background: #fafafa;
+    }
+    .write-here::before { content: '// Write your JavaScript answer here'; }
+
+    /* CHECKLIST */
+    .checklist {
+      background: white;
+      border-radius: 14px;
+      border: 1.5px solid #e2e5f0;
+      padding: 24px;
+      margin-top: 36px;
+    }
+    .checklist h2 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 0.92rem;
+      color: #374151;
+    }
+    .check-row:last-child { border-bottom: none; }
+    .check-box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .check-pts {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      font-weight: 600;
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 28px;
+      font-size: 0.82rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">Techpro Institute Nigeria · JavaScript · DOM Manipulation</div>
+  <h1>Your <span>DOM</span> Assignment</h1>
+  <p>Read every instruction carefully. You've got this! 💪</p>
+</div>
+
+<div class="main">
+
+  <!-- WELCOME -->
+  <div class="welcome">
+    <h2>👋 Hello Developer!</h2>
+    <p>
+      In this assignment, you will use <strong>JavaScript</strong> to select and change elements on a web page.
+      This is called <strong>DOM Manipulation</strong> — and it is one of the most important skills in web development.
+      Every website you love uses it.
+    </p>
+    <p>
+      You have been given a file called <code>dom-playground.html</code>. That file has a web page
+      already built for you — with a profile card, buttons, lists, and more. Your job is to
+      <strong>write JavaScript to control that page.</strong>
+    </p>
+  </div>
+
+  <!-- HOW TO START -->
+  <div class="section-label">Before You Begin — Follow These Steps</div>
+
+  <div class="welcome">
+    <div class="step-row">
+      <div class="step-circle">1</div>
+      <div class="step-text">
+        <strong>Open the file in VS Code</strong>
+        Find the file called <code>dom-playground.html</code> and open it in VS Code.
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">2</div>
+      <div class="step-text">
+        <strong>Open the same file in your browser</strong>
+        Right-click the file in VS Code and choose <strong>"Open with Live Server"</strong>
+        (or just drag the file into Chrome). You should see the playground page on screen.
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">3</div>
+      <div class="step-text">
+        <strong>Scroll to the bottom of the file</strong>
+        In VS Code, scroll to the very bottom. You will see a <code>&lt;script&gt;</code> tag with
+        comments like <code>// TASK 1</code>, <code>// TASK 2</code>, and so on.
+        <strong>That is where you write all your answers.</strong>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">4</div>
+      <div class="step-text">
+        <strong>Write your JavaScript, then save and refresh</strong>
+        After writing each answer, press <strong>Ctrl + S</strong> to save, then
+        refresh your browser to see the change happen on the page.
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-circle">5</div>
+      <div class="step-text">
+        <strong>Use this sheet to write your answers too</strong>
+        For each task below, write your answer in the dotted box provided.
+        Your teacher will review both your code file and this sheet.
+      </div>
+    </div>
+  </div>
+
+  <!-- TASKS -->
+  <div class="section-label">The 10 Tasks — 1 Point Each</div>
+
+  <!-- T1 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge blue">Task 1</span>
+      <span class="task-title">Change the Student Name</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      On the playground page, the profile card shows the text <strong>"Student Name"</strong>.
+      Use JavaScript to change it to <strong>your own first and last name</strong>.
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      Look for the element with the id <code>student-name</code> on the page.
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> Use <code>document.getElementById('student-name')</code> and then set its <code>.innerHTML</code> to your name.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T2 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge orange">Task 2</span>
+      <span class="task-title">Update the Announcement</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      The announcement box currently says a welcome message. Change it to say:
+      <strong>"Assignment submitted! Well done, developer."</strong>
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The element with the id <code>announcement</code>
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> This time use <code>document.querySelector('#announcement')</code> and set <code>.textContent</code>.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T3 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge green">Task 3</span>
+      <span class="task-title">Change the Colour Box Background</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      There is a grey box on the page that says "Change my background colour!".
+      Use JavaScript to give it a background colour of your choice.
+      Also change the text inside it to say what colour you chose.
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The element with the id <code>colour-box</code>
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> Use <code>.style.background = 'red'</code> to change the colour.
+      Then use <code>.innerHTML</code> to change the text.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T4 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge purple">Task 4</span>
+      <span class="task-title">Target the Second Subject in the List</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      There is a list of subjects on the page. Select the <strong>second item only</strong>
+      and change its text to <strong>"JavaScript DOM"</strong>.
+      Do not touch the other items.
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The list items have the class <code>subject-item</code>. You want the one at index <code>[1]</code> (remember, counting starts at 0).
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> Use <code>document.querySelectorAll('.subject-item')</code> to get all of them,
+      then add <code>[1]</code> at the end to pick the second one.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T5 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge blue">Task 5</span>
+      <span class="task-title">Rename the Blue Button</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      The blue button currently says <strong>"Submit Work"</strong>.
+      Change its text to <strong>"Assignment Submitted ✅"</strong>.
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The button with the id <code>btn-primary</code>
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> Buttons are just elements too — you can set their <code>.innerHTML</code> the same way.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T6 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge orange">Task 6</span>
+      <span class="task-title">Reveal the Hidden Secret Box</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      Somewhere on the page there is a secret box that is completely invisible.
+      It is hidden using the CSS rule <code>display: none</code>.
+      Your job is to make it appear using JavaScript.
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The element with the id <code>secret-box</code>
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> If <code>display: none</code> hides it, then setting <code>.style.display = 'block'</code> will show it.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T7 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge green">Task 7</span>
+      <span class="task-title">Update the Tasks Done Stat</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      The stats section shows <strong>0 Tasks Done</strong>.
+      Change that number to <strong>5</strong> using JavaScript.
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The element with the id <code>stat-tasks</code>
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> It only contains a number, so <code>.textContent = '5'</code> is enough.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T8 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge purple">Task 8</span>
+      <span class="task-title">Change the Banner Caption</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      Below the banner image there is a caption. Update it to say:
+      <strong>"Caption: My First DOM Assignment — Techpro 2025"</strong>
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The element with the id <code>image-caption</code>
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> You can use either <code>getElementById</code> or <code>querySelector</code> here — both will work.
+      Try <code>querySelector</code> this time for practice.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T9 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge blue">Task 9</span>
+      <span class="task-title">Add a New Item to the To-Do List</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      The to-do list already has 5 items. Create a <strong>brand new list item</strong>
+      using JavaScript and add it to the bottom of the list.
+      The new item should say: <strong>"Use createElement like a pro"</strong>
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The <code>ul</code> list with the id <code>todo-list</code> — you will add your new item inside it.
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> This task has 3 steps — (1) create the element with <code>document.createElement('li')</code>,
+      (2) set its text with <code>.innerHTML</code>,
+      (3) attach it to the list with <code>appendChild()</code>.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- T10 -->
+  <div class="task">
+    <div class="task-top">
+      <span class="task-badge orange">Task 10</span>
+      <span class="task-title">Make the Green Button Show an Alert</span>
+      <span class="task-pts">1 pt</span>
+    </div>
+    <p>
+      When a user <strong>clicks</strong> the green "Mark Done" button,
+      an alert popup should appear saying: <strong>"Great job! Task marked as complete."</strong>
+    </p>
+    <div class="target-box">
+      <div class="label">Which element to target</div>
+      The button with the id <code>btn-success</code>
+    </div>
+    <div class="hint-box">
+      💡 <strong>Hint:</strong> Use <code>.addEventListener('click', function() { ... })</code>.
+      Put your <code>alert(...)</code> inside the curly braces.
+    </div>
+    <div class="write-here"></div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="checklist">
+    <h2>✅ Before You Submit — Check These Off</h2>
+    <div class="check-row"><div class="check-box"></div> I opened dom-playground.html in VS Code and in the browser <span class="check-pts"></span></div>
+    <div class="check-row"><div class="check-box"></div> Task 1 — Student name changed <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 2 — Announcement updated <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 3 — Colour box has a new background <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 4 — Second subject item text changed <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 5 — Blue button text updated <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 6 — Secret box is now visible <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 7 — Tasks Done stat shows 5 <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 8 — Banner caption updated <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 9 — New to-do item added to the list <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> Task 10 — Green button shows alert when clicked <span class="check-pts">1 pt</span></div>
+    <div class="check-row"><div class="check-box"></div> I saved my file and all changes are visible in the browser <span class="check-pts"></span></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Techpro Institute Nigeria · JavaScript DOM Assignment · Cedar Creatives Technology
+</div>
+
+</body>
+</html>

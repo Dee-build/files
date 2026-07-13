@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DOM Playground — Techpro Institute</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4ff;
+      color: #1a1a2e;
+      padding: 24px;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: white;
+      padding: 24px 32px;
+      border-radius: 14px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header .logo { font-size: 2rem; }
+    header h1 { font-size: 1.4rem; font-weight: 700; }
+    header p  { font-size: 0.85rem; color: #9fa8cc; margin-top: 4px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #dde3ff;
+    }
+    .card h2 {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+
+    /* ── PROFILE CARD ── */
+    #profile-section { grid-column: span 2; }
+    @media (max-width: 700px) { #profile-section { grid-column: span 1; } }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    #avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #3a86ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      flex-shrink: 0;
+    }
+    #student-name  { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; }
+    #student-role  { font-size: 0.95rem; color: #6b7280; margin-top: 4px; }
+    #student-score {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    /* ── SUBJECT LIST ── */
+    #subject-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #subject-list li {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid #e5e7eb;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    #subject-list li:nth-child(1) { border-left: 4px solid #3a86ff; }
+    #subject-list li:nth-child(2) { border-left: 4px solid #ff6b35; }
+    #subject-list li:nth-child(3) { border-left: 4px solid #06d6a0; }
+    #subject-list li:nth-child(4) { border-left: 4px solid #7b2d8b; }
+
+    /* ── ANNOUNCEMENT BOX ── */
+    #announcement {
+      background: #fff8e1;
+      border: 1.5px solid #ffe082;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 0.95rem;
+      color: #5d4037;
+      line-height: 1.6;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    #btn-primary   { background: #3a86ff; color: white; }
+    #btn-secondary { background: #f3f4f6; color: #374151; border: 1.5px solid #d1d5db; }
+    #btn-danger    { background: #fee2e2; color: #b91c1c; border: 1.5px solid #fca5a5; }
+    #btn-success   { background: #d1fae5; color: #065f46; border: 1.5px solid #6ee7b7; }
+
+    /* ── IMAGE SECTION ── */
+    #hero-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3a86ff, #7b2d8b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    #image-caption {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: #6b7280;
+    }
+
+    /* ── STATS ── */
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      flex: 1;
+      min-width: 80px;
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+    }
+    .stat-box .stat-val {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      display: block;
+    }
+    .stat-box .stat-label {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── INPUT SECTION ── */
+    #user-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      margin-bottom: 10px;
+      outline: none;
+    }
+    #user-input:focus { border-color: #3a86ff; }
+    #input-display {
+      background: #f3f4f6;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      color: #374151;
+      min-height: 40px;
+    }
+
+    /* ── TODO LIST ── */
+    #todo-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #todo-list li {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #todo-list li::before {
+      content: '○';
+      color: #9ca3af;
+      font-size: 1rem;
+    }
+
+    /* ── COLOUR BOX ── */
+    #colour-box {
+      height: 100px;
+      border-radius: 12px;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #6b7280;
+      font-size: 0.95rem;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* ── HIDDEN ELEMENT ── */
+    #secret-box {
+      background: #fdf4ff;
+      border: 2px dashed #c084fc;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      display: none;
+      color: #7e22ce;
+      font-weight: 600;
+    }
+
+    /* ── CONSOLE OUTPUT ── */
+    #console-output {
+      background: #1a1a2e;
+      color: #a5f3fc;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      min-height: 80px;
+      max-height: 160px;
+      overflow-y: auto;
+      grid-column: span 2;
+      line-height: 1.8;
+    }
+    @media (max-width: 700px) { #console-output { grid-column: span 1; } }
+    #console-output .log-line { display: block; }
+    #console-output .log-line::before { content: '> '; color: #4ade80; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🖥️</div>
+  <div>
+    <h1>DOM Playground</h1>
+    <p>Techpro Institute — JavaScript DOM Manipulation Assignment</p>
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- PROFILE SECTION -->
+  <div class="card" id="profile-section">
+    <h2>Student Profile</h2>
+    <div class="profile">
+      <div id="avatar">🎓</div>
+      <div>
+        <div id="student-name">Student Name</div>
+        <div id="student-role">Junior Developer · Techpro Institute</div>
+        <span id="student-score">Score: 0 / 10</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBJECT LIST -->
+  <div class="card">
+    <h2>Subjects</h2>
+    <ul id="subject-list">
+      <li class="subject-item" data-code="WD101">Web Development</li>
+      <li class="subject-item" data-code="JS202">JavaScript Basics</li>
+      <li class="subject-item" data-code="PY303">Python Fundamentals</li>
+      <li class="subject-item" data-code="UI404">UI/UX Design</li>
+    </ul>
+  </div>
+
+  <!-- ANNOUNCEMENT -->
+  <div class="card">
+    <h2>Announcement</h2>
+    <p id="announcement">
+      Welcome to Techpro Institute! Your DOM assignment is due this Friday.
+      Make sure to complete all 10 tasks. Good luck, developers!
+    </p>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="card">
+    <h2>Actions</h2>
+    <div class="btn-group">
+      <button class="btn" id="btn-primary">Submit Work</button>
+      <button class="btn" id="btn-secondary">Save Draft</button>
+      <button class="btn" id="btn-danger">Delete</button>
+      <button class="btn" id="btn-success">Mark Done</button>
+    </div>
+  </div>
+
+  <!-- HERO IMAGE -->
+  <div class="card">
+    <h2>Banner Image</h2>
+    <div id="hero-image">🚀 Techpro Banner</div>
+    <p id="image-caption">Caption: Techpro Institute, Nigeria — 2025 Cohort</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="card">
+    <h2>Your Stats</h2>
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-val" id="stat-tasks">0</span>
+        <span class="stat-label">Tasks Done</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val" id="stat-streak">7</span>
+        <span class="stat-label">Day Streak</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val" id="stat-level">1</span>
+        <span class="stat-label">Level</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT SECTION -->
+  <div class="card">
+    <h2>Input Box</h2>
+    <input type="text" id="user-input" placeholder="Type something here..." />
+    <div id="input-display">Your text will appear here...</div>
+  </div>
+
+  <!-- TODO LIST -->
+  <div class="card">
+    <h2>To-Do List</h2>
+    <ul id="todo-list">
+      <li class="todo-item">Learn querySelector</li>
+      <li class="todo-item">Learn getElementById</li>
+      <li class="todo-item">Change text with innerHTML</li>
+      <li class="todo-item">Change CSS with JavaScript</li>
+      <li class="todo-item">Add event listeners</li>
+    </ul>
+  </div>
+
+  <!-- COLOUR BOX -->
+  <div class="card">
+    <h2>Colour Box</h2>
+    <div id="colour-box">Change my background colour!</div>
+  </div>
+
+  <!-- HIDDEN SECRET -->
+  <div class="card">
+    <h2>Hidden Element</h2>
+    <p style="font-size:0.9rem;color:#6b7280;margin-bottom:12px;">
+      There is a secret box below. It is currently hidden using <code>display: none</code>.
+    </p>
+    <div id="secret-box">🎉 You found the secret box! DOM powers activated!</div>
+  </div>
+
+  <!-- CONSOLE OUTPUT -->
+  <div id="console-output">
+    <span class="log-line">DOM Playground loaded. Open DevTools console or write your JS below...</span>
+  </div>
+
+</div>
+
+<!-- STUDENT WRITES THEIR JS HERE -->
+<script>
+  // =============================================
+  //   WRITE YOUR JAVASCRIPT ANSWERS BELOW
+  //   Each task has a comment showing where to work
+  // =============================================
+
+  // TASK 1 — Change the student name
+  document.getElementById('student-name').textContent = 'Adedayo Babalola';
+
+  // TASK 2 — Change the announcement text
+  document.querySelector('#announcement').textContent = 'Assignment submitted! Well done, developer.';
+
+  // TASK 3 — Change the colour box background
+  document.querySelector('#colour-box').style.background = 'lightblue';
+
+  // TASK 4 — Target the second subject in the list
+  //document.querySelectorAll('.subject')[1].textContent = 'JavaScript Advanced';
+
+  // TASK 5 — Change the primary button text
+  document.getElementById('btn-primary').innerHTML = 'Assignment Submitted ✅';
+
+  // TASK 6 — Show the hidden secret box
+  document.getElementById('secret-box').style.display = 'block';
+
+  // TASK 7 — Update the tasks-done stat to 5
+   document.getElementById('stat-tasks').textContent = '5';
+
+  // TASK 8 — Change the image caption
+  document.getElementById('image-caption').innerHTML = 'My First DOM Assignment — Techpro 2025';
+
+  // TASK 9 — Add a new item to the todo list
+   //document.createElement('todo-list') + appendChild(5)
+
+  // TASK 10 — Add a click event to the success button
+  // document.getElementById(...).addEventListener(...)
+
+
+  // ── Helper: log to the on-page console ──
+  function log(msg) {
+    const out = document.getElementById('console-output');
+    const line = document.createElement('span');
+    line.className = 'log-line';
+    line.textContent = msg;
+    out.appendChild(line);
+    out.scrollTop = out.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
