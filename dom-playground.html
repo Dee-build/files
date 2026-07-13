@@ -403,10 +403,10 @@
   // =============================================
 
   // TASK 1 — Change the student name
-  document.getElementById('student-name').textContent = 'Adedayo Babalola';
+  document.getElementById('student-name').innerHTML = 'Adedayo Babalola';
 
   // TASK 2 — Change the announcement text
-  document.querySelector('#announcement').textContent = 'Assignment submitted! Well done, developer.';
+  document.querySelector('#announcement').innerHTML = 'Assignment submitted! Well done, developer.';
 
   // TASK 3 — Change the colour box background
   document.querySelector('#colour-box').style.background = 'lightblue';
@@ -421,13 +421,15 @@
   document.getElementById('secret-box').style.display = 'block';
 
   // TASK 7 — Update the tasks-done stat to 5
-   document.getElementById('stat-tasks').textContent = '5';
+   document.getElementById('stat-tasks').innerHTML = '5';
 
   // TASK 8 — Change the image caption
   document.getElementById('image-caption').innerHTML = 'My First DOM Assignment — Techpro 2025';
 
   // TASK 9 — Add a new item to the todo list
-   //document.createElement('li') + appendChild(5)
+  let newItem = document.createElement('li')
+  newItem.innerHTML = 'Use createElement like a pro'
+  document.getElementById('todo-list').appendChild(newItem);
 
   // TASK 10 — Add a click event to the success button
    document.getElementById('btn-success').addEventListener('click', function () { alert('Great job! Task marked as complete.');} );
